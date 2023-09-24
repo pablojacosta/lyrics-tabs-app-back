@@ -5,12 +5,7 @@ import axios, { AxiosRequestConfig } from "axios";
 import cheerio from "cheerio";
 const app = express();
 app.use(cors());
-
-app.get("/", (_req, res) => {
-  res.send(
-    "<h1>Lyrics & Tabs Finder - Backend Code</h1><p>Made by Pablo Acosta</p><a href='https://github.com/pablojacosta'>GITHUB</a><br /><a href='https://www.linkedin.com/in/pablo-acosta-75482422b/'>LINKEDIN</a>"
-  );
-});
+app.use(express.static("dist"));
 
 app.get("/songs", (req, res) => {
   const options: AxiosRequestConfig = {
