@@ -1,17 +1,19 @@
 require("dotenv").config();
-const express = require("express");
-const cors = require("cors");
-const axios = require("axios");
-const cheerio = require("cheerio");
+import express from "express";
+import cors from "cors";
+import axios, { AxiosRequestConfig } from "axios";
+import cheerio from "cheerio";
 const app = express();
 app.use(cors());
 
-app.get("/", (request, response) => {
-  response.send("<h1>LYRICS AND TABS FINDER - BACKEND :)</h1>");
+app.get("/", (_req, res) => {
+  res.send(
+    "<h1>Lyrics & Tabs Finder - Backend Code</h1><p>Made by Pablo Acosta</p><a href='https://github.com/pablojacosta'>GITHUB</a><br /><a href='https://www.linkedin.com/in/pablo-acosta-75482422b/'>LINKEDIN</a>"
+  );
 });
 
 app.get("/songs", (req, res) => {
-  const options = {
+  const options: AxiosRequestConfig = {
     method: "GET",
     url: "https://genius-song-lyrics1.p.rapidapi.com/search/",
     params: {
@@ -20,7 +22,7 @@ app.get("/songs", (req, res) => {
       page: "1",
     },
     headers: {
-      "X-RapidAPI-Key": process.env.API_KEY,
+      "X-RapidAPI-Key": process.env.API_KEY as string,
       "X-RapidAPI-Host": "genius-song-lyrics1.p.rapidapi.com",
     },
   };
@@ -43,18 +45,19 @@ app.get("/lyrics", (req, res) => {
   };
 
   axios
-    .request(options)
+    .request(options as AxiosRequestConfig)
     .then((response) => {
       const html = response.data;
       const $ = cheerio.load(html);
 
-      let lyrics = [];
+      let lyrics: any[] = [];
 
       $("div[class*='Lyrics__Container']", html).each(function () {
         let scrappedLyrics = $(this);
         scrappedLyrics.find("a").each(function () {
-          $(this).replaceWith($(this).find("span").html());
+          $(this).replaceWith($(this).find("span").html()!);
         });
+
         lyrics.push(scrappedLyrics.html());
       });
       res.send(lyrics);
