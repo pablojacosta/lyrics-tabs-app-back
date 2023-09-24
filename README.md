@@ -1,2 +1,3 @@
 # lyrics-tabs-app-back
-Backend for Lyrics and Tabs Finder App
+An app that lets you find easily lyrics and guitar tabs of requested songs. 
+Backend Code.
