@@ -5,7 +5,6 @@ import axios, { AxiosRequestConfig } from "axios";
 import cheerio from "cheerio";
 const app = express();
 app.use(cors());
-app.use(express.static("dist"));
 
 app.get("/songs", (req, res) => {
   const options: AxiosRequestConfig = {
