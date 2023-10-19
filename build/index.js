@@ -10,7 +10,9 @@ const axios_1 = __importDefault(require("axios"));
 const cheerio_1 = __importDefault(require("cheerio"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
-app.use(express_1.default.static("dist"));
+app.get("/", (req, res) => {
+    res.send("Hi! This is Lyrics and Tabs Finder's backend. :)");
+});
 app.get("/songs", (req, res) => {
     const options = {
         method: "GET",
