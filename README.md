@@ -1,6 +1,8 @@
 # Lyrics & Tabs Finder App
 
-https://lyrics-and-tabs-finder.onrender.com/
+frontend: https://lyrics-and-tabs-finder.netlify.app/
+
+backend: https://lyrics-and-tabs-finder.onrender.com/
 
 A SPA that lets you find easily lyrics and guitar tabs of requested songs.
 The Frontend was created using Vite, React, Typescript, Sass, Axios and Zustand.
