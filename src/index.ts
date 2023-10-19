@@ -6,6 +6,10 @@ import cheerio from "cheerio";
 const app = express();
 app.use(cors());
 
+app.get("/", (req, res) => {
+  res.send("Hi! This is Lyrics and Tabs Finder's backend. :)");
+});
+
 app.get("/songs", (req, res) => {
   const options: AxiosRequestConfig = {
     method: "GET",
