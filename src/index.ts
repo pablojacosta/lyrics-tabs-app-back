@@ -1,8 +1,8 @@
 require("dotenv").config();
-import express from "express";
-import cors from "cors";
 import axios, { AxiosRequestConfig } from "axios";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
+import cors from "cors";
+import express from "express";
 const app = express();
 app.use(cors());
 
@@ -50,7 +50,7 @@ app.get("/lyrics", (req, res) => {
 
       let lyrics: any[] = [];
 
-      $("div[class*='Lyrics__Container']", html).each(function () {
+      $("div[class*='Lyrics-sc-1bcc94c6-1 bzTABU']", html).each(function () {
         let scrappedLyrics = $(this);
         scrappedLyrics.find("a").each(function () {
           $(this).replaceWith($(this).find("span").html()!);
@@ -58,7 +58,7 @@ app.get("/lyrics", (req, res) => {
 
         lyrics.push(scrappedLyrics.html());
       });
-      res.send(lyrics);
+      res.send(lyrics[0]);
     })
     .catch((err) => console.log(err));
 });
