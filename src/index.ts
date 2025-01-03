@@ -42,25 +42,25 @@ app.get("/lyrics", (req, res) => {
     responseType: "text",
   };
 
-  axios.request(options as AxiosRequestConfig).then((response) => {
-    console.log("response.data", response.status);
+  axios
+    .request(options as AxiosRequestConfig)
+    .then((response) => {
+      const html = response.data;
+      const $ = cheerio.load(html);
 
-    const html = response.data;
-    const $ = cheerio.load(html);
+      let lyrics: any[] = [];
 
-    let lyrics: any[] = [];
+      $("div[class*='Lyrics-sc-1bcc94c6-1 bzTABU']", html).each(function () {
+        let scrappedLyrics = $(this);
+        scrappedLyrics.find("a").each(function () {
+          $(this).replaceWith($(this).find("span").html()!);
+        });
 
-    $("div[class*='Lyrics-sc-1bcc94c6-1 bzTABU']", html).each(function () {
-      let scrappedLyrics = $(this);
-      scrappedLyrics.find("a").each(function () {
-        $(this).replaceWith($(this).find("span").html()!);
+        lyrics.push(scrappedLyrics.html());
       });
-
-      lyrics.push(scrappedLyrics.html());
-    });
-    res.send(lyrics[0]);
-  });
-  // .catch((err) => console.log(err));
+      res.send(lyrics[0]);
+    })
+    .catch((err) => console.log(err));
 });
 
 const PORT = process.env.PORT || 3001;
