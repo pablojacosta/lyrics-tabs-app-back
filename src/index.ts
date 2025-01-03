@@ -31,7 +31,7 @@ app.get("/songs", (req, res) => {
       res.send(response.data);
     })
     .catch((error) => {
-      console.error("ERROR ON SONGS", error);
+      console.error(error);
     });
 });
 
@@ -42,25 +42,25 @@ app.get("/lyrics", (req, res) => {
     responseType: "text",
   };
 
-  axios
-    .request(options as AxiosRequestConfig)
-    .then((response) => {
-      const html = response.data;
-      const $ = cheerio.load(html);
+  axios.request(options as AxiosRequestConfig).then((response) => {
+    console.log("response.data", response.status);
 
-      let lyrics: any[] = [];
+    const html = response.data;
+    const $ = cheerio.load(html);
 
-      $("div[class*='Lyrics-sc-1bcc94c6-1 bzTABU']", html).each(function () {
-        let scrappedLyrics = $(this);
-        scrappedLyrics.find("a").each(function () {
-          $(this).replaceWith($(this).find("span").html()!);
-        });
+    let lyrics: any[] = [];
 
-        lyrics.push(scrappedLyrics.html());
+    $("div[class*='Lyrics-sc-1bcc94c6-1 bzTABU']", html).each(function () {
+      let scrappedLyrics = $(this);
+      scrappedLyrics.find("a").each(function () {
+        $(this).replaceWith($(this).find("span").html()!);
       });
-      res.send(lyrics[0]);
-    })
-    .catch((err) => console.log("ERROR ON LYRICS", err));
+
+      lyrics.push(scrappedLyrics.html());
+    });
+    res.send(lyrics[0]);
+  });
+  // .catch((err) => console.log(err));
 });
 
 const PORT = process.env.PORT || 3001;

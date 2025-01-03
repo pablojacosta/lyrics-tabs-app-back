@@ -56,7 +56,7 @@ app.get("/songs", (req, res) => {
         res.send(response.data);
     })
         .catch((error) => {
-        console.error("ERROR ON SONGS", error);
+        console.error(error);
     });
 });
 app.get("/lyrics", (req, res) => {
@@ -65,9 +65,8 @@ app.get("/lyrics", (req, res) => {
         url: req.query.passedUrl,
         responseType: "text",
     };
-    axios_1.default
-        .request(options)
-        .then((response) => {
+    axios_1.default.request(options).then((response) => {
+        console.log("response.data", response.status);
         const html = response.data;
         const $ = cheerio.load(html);
         let lyrics = [];
@@ -79,8 +78,8 @@ app.get("/lyrics", (req, res) => {
             lyrics.push(scrappedLyrics.html());
         });
         res.send(lyrics[0]);
-    })
-        .catch((err) => console.log("ERROR ON LYRICS", err));
+    });
+    // .catch((err) => console.log(err));
 });
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
