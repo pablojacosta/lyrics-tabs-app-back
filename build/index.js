@@ -56,7 +56,7 @@ app.get("/songs", (req, res) => {
         res.send(response.data);
     })
         .catch((error) => {
-        console.error(error);
+        console.error("ERROR ON SONGS", error);
     });
 });
 app.get("/lyrics", (req, res) => {
@@ -80,7 +80,7 @@ app.get("/lyrics", (req, res) => {
         });
         res.send(lyrics[0]);
     })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log("ERROR ON LYRICS", err));
 });
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
