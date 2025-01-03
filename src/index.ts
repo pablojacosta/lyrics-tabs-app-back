@@ -35,15 +35,29 @@ app.get("/songs", (req, res) => {
     });
 });
 
-app.get("/lyrics", (req, res) => {
+app.get("/lyrics", async (req, res) => {
+  const getHeadersList = async () => {
+    const url = `http://headers.scrapeops.io/v1/browser-headers?api_key=${process.env.SCRAPE_OPS_API_KEY}`;
+    const response = await axios.get(url);
+    return response.data.result || [];
+  };
+
+  const getRandomHeader = async (headerList: string[]) => {
+    const randomIndex = Math.floor(Math.random() * headerList.length);
+    return headerList[randomIndex];
+  };
+
+  const headerList = await getHeadersList();
+
   const options = {
     method: "GET",
     url: req.query.passedUrl,
     responseType: "text",
+    headers: getRandomHeader(headerList),
   };
 
   axios
-    .request(options as AxiosRequestConfig)
+    .request(options as any)
     .then((response) => {
       const html = response.data;
       const $ = cheerio.load(html);
